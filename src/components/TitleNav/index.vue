@@ -1,6 +1,6 @@
 <template>
   <div class="title--nav">
-    <div v-if="title">{{ title }}</div>
+    <div class="title" v-if="title">{{ title }}</div>
     <slot v-else></slot>
   </div>
 </template>
@@ -21,5 +21,9 @@ defineProps({
   padding-left: 5px;
   line-height: 40px;
   text-align: left;
+  .title {
+    font-weight: bold;
+    letter-spacing: 2px;
+  }
 }
 </style>

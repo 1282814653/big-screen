@@ -2,7 +2,11 @@
   <VScaleScreen width="1920" height="1080" ref="scale-screen" fullScreen>
     <div class="zn-content">
       <!-- 上 -->
-      <div class="content-header">大数据平台</div>
+      <div class="content-header">
+        <div class="time"></div>
+        <div class="title">大数据平台</div>
+        <div class="time">{{ time }}</div>
+      </div>
       <!-- 下 -->
       <div class="content-center">
         <!-- 左 -->
@@ -82,7 +86,7 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted, inject } from 'vue'
+import { ref, computed, onMounted, onUnmounted, inject } from 'vue'
 import { useWindowSize, useElementBounding } from '@vueuse/core'
 import VScaleScreen from 'v-scale-screen'
 import TitleNav from '../components/TitleNav/index.vue'
@@ -110,8 +114,14 @@ const bodyClass = ref('echart-size')
 // --------------------------------
 const globalEcharts = inject('globalEcharts')
 
-onMounted(() => {
-  // initPageEcharts()
+onMounted(() => {})
+onUnmounted(() => {
+  clearInterval(cleatTime)
+})
+
+const time = ref('')
+const cleatTime = setInterval(() => {
+  time.value = new Date().toLocaleString()
 })
 
 // --------------------------------
@@ -634,14 +644,29 @@ $echartHeight: calc($pageFooter - 120px);
 .content-header {
   width: $pageWidth; // 页面的总宽度
   height: $pageHeader; // 页面顶部的高度
-  text-align: center;
-  font-size: 36px;
-  line-height: $pageHeader;
   background: url('../assets/images/head_bg.png') no-repeat;
   background-size: 100% 100%;
+  margin: 0px;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 10px;
   color: #fff;
-  font-weight: bold;
-  letter-spacing: 6px;
+  box-sizing: border-box;
+
+  .title {
+    font-size: 36px;
+    font-weight: bold;
+    letter-spacing: 6px;
+    text-align: center;
+    margin-top: -15px;
+  }
+  .time {
+    font-size: 14px;
+    font-weight: bold;
+    letter-spacing: 1px;
+  }
 }
 // 下 echarts 表格
 .content-center {
@@ -651,6 +676,8 @@ $echartHeight: calc($pageFooter - 120px);
   justify-content: space-between;
   align-items: center;
   flex-wrap: wrap;
+  box-sizing: border-box;
+  padding-top: 6px;
 }
 
 .center-left,
