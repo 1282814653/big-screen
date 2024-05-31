@@ -2,7 +2,7 @@
   <VScaleScreen width="1920" height="1080" ref="scale-screen" fullScreen>
     <div class="zn-content">
       <!-- 上 -->
-      <div class="content-header">晨勉大数据平台</div>
+      <div class="content-header">大数据平台</div>
       <!-- 下 -->
       <div class="content-center">
         <!-- 左 -->
