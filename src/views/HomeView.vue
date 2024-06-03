@@ -3,7 +3,7 @@
     <div class="zn-content">
       <!-- 上 -->
       <div class="content-header">
-        <div class="time"></div>
+        <div class="time">{{ date }}</div>
         <div class="title">大数据平台</div>
         <div class="time">{{ time }}</div>
       </div>
@@ -114,7 +114,9 @@ const bodyClass = ref('echart-size')
 // --------------------------------
 const globalEcharts = inject('globalEcharts')
 
-onMounted(() => {})
+onMounted(() => {
+  getDate()
+})
 onUnmounted(() => {
   clearInterval(cleatTime)
 })
@@ -123,6 +125,14 @@ const time = ref('')
 const cleatTime = setInterval(() => {
   time.value = new Date().toLocaleString()
 })
+
+const date = ref('')
+
+const getDate = () => {
+  let d = new Date().getDay()
+  let dateArr = ['日', '一', '二', '三', '四', '五', '六']
+  date.value = '今天星期：' + dateArr[d]
+}
 
 // --------------------------------
 const chart1 = ref(null)
