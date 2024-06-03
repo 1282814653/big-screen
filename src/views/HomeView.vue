@@ -127,7 +127,6 @@ const cleatTime = setInterval(() => {
 })
 
 const date = ref('')
-
 const getDate = () => {
   let d = new Date().getDay()
   let dateArr = ['日', '一', '二', '三', '四', '五', '六']
@@ -159,32 +158,79 @@ const initPageEcharts = () => {
 // --------------------------------
 
 // 左边 上
+const option1Data = [
+  { name: '男性', value: 24 },
+  { name: '女性', value: 35 }
+]
+let totalNum = 0
+option1Data.map((item) => (totalNum += item.value))
+console.log('totalNum', totalNum)
 const option1 = ref({
+  // 环形图中间默认显示文字
   title: {
-    left: 'center'
-  },
-  tooltip: {
-    trigger: 'item',
-    formatter: '{a} <br/>{b} : {c} ({d}%)'
-  },
-
-  series: [
-    {
-      name: '人员占比',
-      type: 'pie',
-      radius: '85%',
-      center: ['50%', '50%'],
-      data: [
-        { value: 32, name: '男性' },
-        { value: 28, name: '女性' }
-      ],
-      emphasis: {
-        itemStyle: {
-          shadowBlur: 10,
-          shadowOffsetX: 0,
-          shadowColor: 'rgba(0, 0, 0, 0.5)'
+    text: `{a|总人数}\n\n{b|${totalNum}}`,
+    top: '40%',
+    left: '-18%',
+    textStyle: {
+      rich: {
+        a: {
+          fontSize: 22,
+          padding: [0, 0, 0, 190],
+          color: 'rgba(255,255,255,0.65)'
+        },
+        b: {
+          fontSize: 26,
+          padding: [0, 0, 0, 210],
+          color: 'rgba(255,255,255,0.85)'
         }
       }
+    }
+  },
+  tooltip: {
+    backgroundColor: '#fff',
+    extraCssText: 'box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.15);',
+    padding: [12, 16, 12, 16],
+    textStyle: {
+      color: 'rgba(0,0,0,0.65)'
+    },
+    // 悬浮的位置可以调整，总距离左边10px
+    position: (point) => {
+      return ['10', point[1]]
+    },
+    formatter: (param) => {
+      let { marker, name, value, data } = param
+      let result = `<div>${marker}${name}</div>`
+      result += `<div>人数：${value} </div>`
+      return result
+    }
+  },
+  legend: {
+    orient: 'vertial',
+    itemWidth: 8,
+    itemHeight: 8,
+    right: 50,
+    bottom: '40%',
+    data: option1Data,
+    textStyle: {
+      color: '#fff',
+      fontSize: 18
+    },
+    formatter: (name) => {
+      const value = option1Data.find((item) => item.name === name).value
+      return `${name}：${value} 次`
+    }
+  },
+  color: ['#4168FF', '#47CBFF', '#FF7A33', '#45DE7F', '#FFAC34'],
+  series: [
+    {
+      name: '攻击总数',
+      type: 'pie',
+      radius: ['50%', '80%'],
+      center: ['30%', '50%'], // 图形位置
+      label: {
+        show: false
+      },
+      data: option1Data
     }
   ]
 })
