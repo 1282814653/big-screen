@@ -12,3 +12,4 @@
 - vue-router
 - vue3-seamless-scroll
 - sass
+- gh-pages

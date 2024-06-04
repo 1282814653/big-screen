@@ -18,6 +18,9 @@ import 'echarts/lib/chart/bar'
 import 'echarts/lib/chart/pie'
 import 'echarts/lib/chart/map'
 
+// thress
+import * as three from 'three'
+
 const app = createApp(App)
 
 app.use(createPinia())
@@ -27,6 +30,7 @@ app.use(ElementPlus) // ElementPlus
 app.component('v-chart', VChart) // VChart
 
 // app.config.globalProperties.globalEcharts = echarts // 在getCurrentInstance()中找 (此方法官方以弃用)
-app.provide('globalEcharts', echarts) // 在setup() 使用 inject 中找 (推荐次方法)
+app.provide('globalEcharts', echarts) // 在setup() 使用 inject 中找 (推荐此方法)
+app.provide('globalThree', three) // 在setup() 使用 inject 中找 (推荐此方法)
 
 app.mount('#app')
