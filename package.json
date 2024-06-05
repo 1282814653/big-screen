@@ -14,9 +14,11 @@
   "dependencies": {
     "@vueuse/core": "^10.10.0",
     "axios": "^1.7.2",
+    "dat.gui": "^0.7.9",
     "echarts": "^5.5.0",
     "echarts-liquidfill": "^3.1.0",
     "element-plus": "^2.7.3",
+    "normalize.css": "^8.0.1",
     "pinia": "^2.1.7",
     "three": "^0.165.0",
     "v-scale-screen": "^2.2.0",
@@ -27,6 +29,7 @@
   },
   "devDependencies": {
     "@rushstack/eslint-patch": "^1.8.0",
+    "@types/three": "^0.165.0",
     "@vitejs/plugin-vue": "^5.0.4",
     "@vue/eslint-config-prettier": "^9.0.0",
     "eslint": "^8.57.0",
