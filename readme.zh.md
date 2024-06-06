@@ -16,3 +16,13 @@
 - mockjs
 - vite-plugin-mock
 - terser
+
+* vite-plugin-vue-setup-extend-plus
+* vite-plugin-restart
+* v-viewer
+* print-js
+* file-saver
+* vue-count-to
+* js-md5
+* qs
+* nprogress

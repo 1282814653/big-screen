@@ -9,7 +9,7 @@ import VueDevTools from 'vite-plugin-vue-devtools'
 import AutoImport from 'unplugin-auto-import/vite'
 import Components from 'unplugin-vue-components/vite'
 import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
-//
+
 // https://vitejs.dev/config/
 export default defineConfig(({ command, mode, isSsrBuild, isPreview }) => {
   const env = loadEnv(mode, process.cwd())
@@ -61,6 +61,8 @@ export default defineConfig(({ command, mode, isSsrBuild, isPreview }) => {
         [env.VITE_APP_BASE_API]: {
           target: env.VITE_APP_BASE_URL,
           changeOrigin: true,
+          ws: false, // 开启 websockets
+          secure: true, // 如果是https接口，需要配置这个参数
           rewrite: (path) => path.replace(/^\/api/, '')
           // rewrite: (path) => path.replace(new RegExp('^' + env.VITE_APP_BASE_API), ''),
         }
