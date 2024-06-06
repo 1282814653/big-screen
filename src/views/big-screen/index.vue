@@ -86,11 +86,9 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted, onUnmounted, inject } from 'vue'
+// import { ref, computed, onMounted, onUnmounted, inject } from 'vue'
 import { useWindowSize, useElementBounding } from '@vueuse/core'
 import VScaleScreen from 'v-scale-screen'
-import TitleNav from '@Com/components/TitleNav/index.vue'
-import ContentBox from '@Com/components/ContentBox/index.vue'
 
 import DPMapView from '../common/DPMapView/index.vue'
 import TableList from '../common/TableList/index.vue'
