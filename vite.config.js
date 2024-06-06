@@ -1,6 +1,7 @@
 import { fileURLToPath, URL } from 'node:url'
 import { resolve } from 'node:path'
-import { defineConfig } from 'vite'
+import { defineConfig, loadEnv } from 'vite'
+
 import { viteMockServe } from 'vite-plugin-mock'
 import vue from '@vitejs/plugin-vue'
 import VueDevTools from 'vite-plugin-vue-devtools'
@@ -11,6 +12,8 @@ import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
 //
 // https://vitejs.dev/config/
 export default defineConfig(({ command, mode, isSsrBuild, isPreview }) => {
+  const env = loadEnv(mode, process.cwd())
+  // console.log('env', env.VITE_APP_BASE_URL + env.VITE_APP_BASE_API)
   return {
     base: './',
     plugins: [
@@ -29,8 +32,9 @@ export default defineConfig(({ command, mode, isSsrBuild, isPreview }) => {
         resolvers: [ElementPlusResolver()]
       }),
       viteMockServe({
-        // default
-        mockPath: 'mock'
+        mockPath: 'mock', // 设置模拟数据的存储文件夹，如果不是index.js需要写明完整路径
+        logger: true, // 是否在控制台显示请求日志
+        enable: command === 'serve'
       })
     ],
     resolve: {
@@ -41,22 +45,20 @@ export default defineConfig(({ command, mode, isSsrBuild, isPreview }) => {
       extensions: ['.js', '.ts', '.jsx', '.tsx', '.json', '.vue']
     },
     server: {
-      // host: 'localhost',
-      // port: env.VITE_PROT,
-      // open: true,
-      // cors: true,
-      // strictPort:false //  true 时若端口已被占用则会直接退出, false 时端口占用后启动一个新的端口
-      // proxy: {
-      //     [env.VITE_PROXY_DOMAIN]: {
-      //         target: env.VITE_BASE_API,
-      //         changeOrigin: true,
-      //         // rewrite: (path) => path.replace(/^\/api/, ''),
-      //         // rewrite: (path) => path.replace(new RegExp('^' + env.VITE_APP_BASE_API), ''),
-      //         rewrite: {
-      //             ['^' + env.VITE_BASE_API]: '',
-      //         },
-      //     },
-      // },
+      host: 'localhost',
+      port: Number(env.VITE_APP_PORT),
+      open: true,
+      cors: true,
+      strictPort: false, //  true 时若端口已被占用则会直接退出, false 时端口占用后启动一个新的端口
+      proxy: {
+        [env.VITE_APP_BASE_API]: {
+          target: env.VITE_APP_BASE_URL,
+          changeOrigin: true,
+          rewrite: (path) => path.replace(/^\/api/, '')
+          // rewrite: (path) => path.replace(new RegExp('^' + env.VITE_APP_BASE_API), ''),
+          // rewrite: {['^' + env.VITE_APP_BASE_API]: ''}
+        }
+      }
     },
     build: {
       target: 'es2015', // 设置最终构建的浏览器兼容目标

@@ -2,12 +2,12 @@ import axios from 'axios'
 import { ElMessage, ElMessageBox } from 'element-plus'
 
 const service = axios.create({
-  baseURL: '',
+  baseURL: import.meta.env.VITE_APP_BASE_API,
   headers: {
-    'Content-Length': 'application/json;charset=utf-8'
+    'Content-type': 'application/json;charset=utf-8'
   },
-  timeout: 10000,
-  withCredentials: true // 跨域请求时发送cookie
+  timeout: 10000
+  // withCredentials: true // 跨域请求时发送cookie
 })
 
 // 请求
@@ -26,7 +26,7 @@ service.interceptors.response.use(
   (response) => {
     const { code, msg } = response.data
 
-    if (code == 0) {
+    if (code == 0 || code == 200) {
       return response.data
     }
 
@@ -35,12 +35,12 @@ service.interceptors.response.use(
       return response
     }
 
-    return Promise.reject(new Error(msg) || 'Error')
+    return Promise.reject('Error')
   },
   (error) => {
     // 根据 error.response.status 判断错误类型
 
-    ElMessage.error(message || `后端接口未知异常`)
+    ElMessage.error(`后端接口未知异常`)
     return Promise.reject(error)
   }
 )

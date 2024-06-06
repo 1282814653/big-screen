@@ -1,11 +1,15 @@
+import { dataList } from './list'
+
 export default [
   {
-    url: '/api/login',
-    method: 'post',
+    url: '/login',
+    method: 'get',
     response: (res) => {
+      console.log('res... mock', res)
       return {
         code: 0,
-        data: '成功'
+        msg: '成功',
+        data: dataList
       }
     }
   }
