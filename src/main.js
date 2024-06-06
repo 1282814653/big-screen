@@ -21,6 +21,11 @@ import 'echarts/lib/chart/map'
 // thress
 import * as three from 'three'
 
+router.beforeEach((to, from, next) => {
+  console.log('to,', to, from)
+  next()
+})
+
 const app = createApp(App)
 
 app.use(createPinia())

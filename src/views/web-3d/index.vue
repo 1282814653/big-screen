@@ -1,5 +1,7 @@
 <template>
-  <!-- <div class="box">web3d</div> -->
+  <div class="box">web3d</div>
+  <TitleNav title="标题" />
+
   <div class="container" ref="container"></div>
 </template>
 <script setup>
@@ -166,7 +168,7 @@ const controls = new OrbitControls(camera, render.domElement)
 // 循环渲染 // 周期性执行 默认理想状态下每秒执行 60 次
 const clock = new THREE.Clock()
 const renderFun = () => {
-  stats.update() // 更新 帧率
+  // stats.update() // 更新 帧率
   // const spt = clock.getDelta() * 1000 // 获取时间 单位 毫秒
   // console.log('spt', spt)
   // console.log('渲染帧数', 1000 / spt)
@@ -177,7 +179,7 @@ const renderFun = () => {
 
 onMounted(() => {
   container.value.appendChild(render.domElement)
-  container.value.appendChild(stats.domElement)
+  // container.value.appendChild(stats.domElement)
   renderFun()
 })
 
