@@ -13,6 +13,7 @@
 <script setup>
 import { useRoute, useRouter } from 'vue-router'
 import { demo } from '@/api/index.js'
+
 const route = useRoute()
 const router = useRouter()
 

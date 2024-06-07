@@ -1,20 +1,36 @@
 import { fileURLToPath, URL } from 'node:url'
 import { resolve } from 'node:path'
+import path from 'node:path'
 import { defineConfig, loadEnv } from 'vite'
 
-import { viteMockServe } from 'vite-plugin-mock'
 import vue from '@vitejs/plugin-vue'
 import VueDevTools from 'vite-plugin-vue-devtools'
 
 import AutoImport from 'unplugin-auto-import/vite'
 import Components from 'unplugin-vue-components/vite'
+
+import { viteMockServe } from 'vite-plugin-mock'
+
+// 1. svg 使用方式一
 import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
+import ElementPlus from 'unplugin-element-plus/vite'
+
+// 2. svg 使用方式二
+import svgLoader from 'vite-svg-loader'
+
+// 3. svg 使用方式三
+import { createSvgIconsPlugin } from 'vite-plugin-svg-icons'
+
+// 5. svg 使用方式五
+import Icons from 'unplugin-icons/vite'
+import { FileSystemIconLoader } from 'unplugin-icons/loaders'
+import IconsResolver from 'unplugin-icons/resolver'
 
 // https://vitejs.dev/config/
 export default defineConfig(({ command, mode, isSsrBuild, isPreview }) => {
   const env = loadEnv(mode, process.cwd())
-  // console.log('env 0 ', process.cwd())
   let isDev = env.VITE_USER_NODE_ENV == 'development' ? true : false
+
   return {
     base: isDev ? '/' : './',
 
@@ -24,6 +40,7 @@ export default defineConfig(({ command, mode, isSsrBuild, isPreview }) => {
         reactivityTransform: true
       }),
       VueDevTools(),
+      svgLoader(),
       AutoImport({
         imports: ['vue', 'vue-router', '@vueuse/core'],
         resolvers: [ElementPlusResolver()],
@@ -32,8 +49,35 @@ export default defineConfig(({ command, mode, isSsrBuild, isPreview }) => {
       Components({
         // 全局组件导入 自动导入 组件目录
         dirs: ['./src/components/'],
-        resolvers: [ElementPlusResolver()]
+        extensions: ['vue'],
+        deep: true, // 搜索子目录
+        dts: false, // 不使用ts
+        include: [/\.vue$/, /\.vue\?vue/], // 只识别vue文件
+        directoryAsNamespace: true, // 命名冲突
+        resolvers: [
+          ElementPlusResolver(),
+          IconsResolver({
+            // prefix: 'icon', // 设置图标组件的默认前缀 不设置 为 i
+            customCollections: ['wm'], // 设置自定义图标集合
+            enabledCollections: ['ep', 'twemoji']
+          })
+        ]
       }),
+      createSvgIconsPlugin({
+        // 指定需要缓存的图标文件夹
+        iconDirs: [path.resolve(process.cwd(), 'src/icons')],
+        // iconDirs: [fileURLToPath(new URL('./src/icons', import.meta.url))],
+        // 指定symbolId格式
+        symbolId: 'icon-[name]'
+      }),
+      Icons({
+        compiler: 'vue3',
+        autoInstall: true,
+        customCollections: {
+          wm: FileSystemIconLoader('./src/icons') // 获取本地 图标路径
+        }
+      }),
+
       viteMockServe({
         mockPath: 'mock', // 设置模拟数据的存储文件夹，如果不是index.js需要写明完整路径
         logger: true, // 是否在控制台显示请求日志

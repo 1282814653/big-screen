@@ -16,6 +16,12 @@
 - mockjs
 - vite-plugin-mock
 - terser
+- @element-plus/icons-vue
+- @iconify/json
+- @iconify/vue
+- unplugin-icons
+- vite-plugin-svg-icons
+- vite-svg-loader
 
 * vite-plugin-vue-setup-extend-plus
 * vite-plugin-restart
