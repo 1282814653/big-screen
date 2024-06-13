@@ -32,7 +32,16 @@ import { Icon } from '@iconify/vue'
 // svg图标注册
 import 'virtual:svg-icons-register'
 
+import { VBtn } from './directives/v-btn'
+
 const app = createApp(App)
+
+// router.beforeEach((to, from, next) => {
+//   console.log('main .js ')
+//   next()
+// })
+
+// 设置页面标题
 
 app.use(createPinia())
 app.use(router)
@@ -50,5 +59,7 @@ app.component('Icon', Icon)
 // app.config.globalProperties.globalEcharts = echarts // 在getCurrentInstance()中找 (此方法官方以弃用)
 app.provide('globalEcharts', echarts) // 在setup() 使用 inject 中找 (推荐此方法)
 app.provide('globalThree', three) // 在setup() 使用 inject 中找 (推荐此方法)
+
+app.component('VBtn', VBtn(app))
 
 app.mount('#app')

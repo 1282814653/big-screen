@@ -2,6 +2,8 @@
   <RouterView />
 </template>
 
-<script setup></script>
+<script setup>
+console.log('APP.vue')
+</script>
 
 <style scoped></style>

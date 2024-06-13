@@ -6,25 +6,32 @@ import { defineConfig, loadEnv } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import VueDevTools from 'vite-plugin-vue-devtools'
 
+// 自动导入 API
 import AutoImport from 'unplugin-auto-import/vite'
+// Vue 的按需组件自动导入
 import Components from 'unplugin-vue-components/vite'
 
 import { viteMockServe } from 'vite-plugin-mock'
 
-// 1. svg 使用方式一
+// 1. svg 使用方式一 ElementPlus组件 按需引入 无需再 main.js  中 use
 import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
 import ElementPlus from 'unplugin-element-plus/vite'
 
 // 2. svg 使用方式二
 import svgLoader from 'vite-svg-loader'
 
-// 3. svg 使用方式三
+// 3. svg 使用方式三  配置 本地 图标
 import { createSvgIconsPlugin } from 'vite-plugin-svg-icons'
 
-// 5. svg 使用方式五
+// 5. svg 使用方式五 Icon 自动导入 配置 iconify 和 elementPlus icon
 import Icons from 'unplugin-icons/vite'
 import { FileSystemIconLoader } from 'unplugin-icons/loaders'
 import IconsResolver from 'unplugin-icons/resolver'
+
+function resolvePathDir(dir) {
+  return path.join(__dirname, dir)
+  // return resolve(process.cwd(), '.', dir)
+}
 
 // https://vitejs.dev/config/
 export default defineConfig(({ command, mode, isSsrBuild, isPreview }) => {
